@@ -14,5 +14,3 @@ const validateUser = (user) => {
 module.exports = {
     validateUser
 }
-
-// ||  
