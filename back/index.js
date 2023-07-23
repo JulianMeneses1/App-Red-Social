@@ -19,7 +19,7 @@ const imageRoutes = require("./routes/fileRoute");
 
 app.use("/api/users", userRoutes);
 app.use("/api/publications", publicationRoutes);
-app.use("/api/follow", followRoutes);
+app.use("/api/follows", followRoutes);
 app.use("/api/files", imageRoutes);
 
 app.listen(port, () => console.log("Started on port " + port));

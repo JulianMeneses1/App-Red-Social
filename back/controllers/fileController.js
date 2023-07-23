@@ -1,5 +1,6 @@
 const fs = require("fs");
 const User = require("../models/User");
+const path = require("path");
 
 const upload = (req,res) => {
 
@@ -38,6 +39,26 @@ const upload = (req,res) => {
         })   
 }
 
+const getAvatar = (req, res) => {
+
+    const fileName = req.params.filename;
+
+    const filePath = "./files/avatars/" + fileName;
+    
+    fs.stat(filePath, (error, exists)=>{
+        if (exists) {
+            // la ruta del archivo que es un string la convertimos a una ruta absoluta con path.resolve
+            return res.sendFile(path.resolve(filePath));
+        } else{
+            return res.status(404).json({
+                status: "error", 
+                message: "La imagen no existe"
+            }) 
+        }
+    })    
+}
+
 module.exports = {
-    upload
+    upload,
+    getAvatar
 }
