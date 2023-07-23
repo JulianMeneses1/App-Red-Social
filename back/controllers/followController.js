@@ -114,11 +114,38 @@ const following = (req, res) => {
 
 // Lista de usuarios que siguen a un usuario
 const followers = (req, res) => {
-    return res.status(200).send({
-        status: "success",
-        message: "Listado de usuarios que me están siguiendo",
-        userToUnfollow
-    })
+    let userId = req.user.id;
+    if (req.params.id) userId = req.params.id;
+    const page = req.params.page ? req.params.page : 1;
+    Follow.paginate({followed: userId}, {page, limit: 3, sort: { created_at: 1 }, 
+        populate: [
+            { path: "user", select: "-password -role -__v" },
+            { path: "followed", select: "-password -role -__v" }
+        ]})
+        .then((followers)=>{
+            followers.docs = followers.docs.reduce((result, follower) => {
+                if (!result.some((item) => item.user._id === follower.followed._id)) {
+                    result.push({
+                        user: follower.followed,
+                        followers: [follower.user]
+                    });
+                } else {
+                    const existingUser = result.find((item) => item.user._id === follower.followed._id);
+                    existingUser.followers.push(follower.user);
+                }
+                return result;
+            }, []);            
+            return res.status(200).send({
+                status: "success",
+                followers
+            })
+        }).catch((error)=>{
+            console.log(error)
+            return res.status(500).send({
+                status: "internal error server",
+                message: "Error al ejecutar la consulta"
+            })
+        }) 
 }
 
 module.exports = {
