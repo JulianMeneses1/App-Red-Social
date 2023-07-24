@@ -1,7 +1,7 @@
 const jwt = require("jwt-simple");
 const moment = require("moment");
-const libjwt = require("../services/generateJWT");
-const secretKey = libjwt.secretKey;
+const jwtService = require("../services/jwtService");
+const secretKey = jwtService.secretKey;
 
 // Middleware de autenticación
 exports.auth = (req, res, next) => {

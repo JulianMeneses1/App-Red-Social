@@ -1,7 +1,8 @@
 const { validateUser } = require("../helpers/validationUser");
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
-const jwt = require("../services/generateJWT");
+const jwtService = require("../services/jwtService");
+const followService = require("../services/followService");
 
 const register = (req, res) => {
 
@@ -83,7 +84,7 @@ const login = (req, res) => {
                 })
             }
             
-            const token = jwt.createToken(user);
+            const token = jwtService.createToken(user);
 
             return res.status(200).json({
                 status:"success",
@@ -109,10 +110,16 @@ const profile = (req,res) => {
     User.findById(id)
         .select({password:0, role:0})
         .exec()
-        .then((userProfile)=>{            
+        .then(async (userProfile)=>{  
+            
+            const followInfo = await followService.followThisUser(req.user.id, id);
             return res.status(200).send({
                 status: "success",
-                user: userProfile
+                user: userProfile,
+                // si lo sigo
+                following: followInfo.following,
+                // si me sigue
+                follower: followInfo.follower
             })
         })
         .catch((error)=>{
@@ -126,15 +133,20 @@ const profile = (req,res) => {
 const listUsers = (req,res) => {
     const page = req.params.page ? req.params.page : 1;
 
-    User.paginate({}, {page, limit: 2, sort: {created_at: 1}})
-        .then((result)=>{
+    User.paginate({}, {page, limit: 2, sort: {created_at: 1}, select: "-password -role -__v"})
+        .then(async (result)=>{
             if(result.docs.length===0 && page==1){
                 return res.status(404).json({
                     status: "error",
                     message: "No hay usuarios actualmente"
                 }) 
             }
-            return res.status(200).send(result)
+            const followUserIds = await followService.followUserIds(req.user.id);
+            return res.status(200).send({
+                result,
+                user_following: followUserIds.following,
+                user_followers: followUserIds.followers
+            })
         }).catch((error)=>{
             return res.status(500).json({
                 status: "internal server error",
