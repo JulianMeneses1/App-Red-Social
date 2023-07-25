@@ -15,11 +15,12 @@ app.use(express.urlencoded({extended:true}));
 const userRoutes = require("./routes/userRoute"); 
 const followRoutes = require("./routes/followRoute"); 
 const publicationRoutes = require("./routes/publicationRoute"); 
-const imageRoutes = require("./routes/fileRoute");
+const fileRoutes = require("./routes/fileRoute");
 
 app.use("/api/users", userRoutes);
 app.use("/api/publications", publicationRoutes);
 app.use("/api/follows", followRoutes);
-app.use("/api/files", imageRoutes);
+app.use("/api/files", fileRoutes);
+app.use("/api/publications", publicationRoutes);
 
 app.listen(port, () => console.log("Started on port " + port));

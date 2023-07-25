@@ -106,7 +106,7 @@ const login = (req, res) => {
 }
 
 const profile = (req,res) => {
-    const id = req.params.id;
+    const id = req.params.id ? req.params.id : req.user.id;
     User.findById(id)
         .select({password:0, role:0})
         .exec()
@@ -162,10 +162,7 @@ const update = (req, res) => {
     // datos a modificar
     const userToUpdate = req.body;    
     // eliminamos los campos que no queremos que pueda modificar
-    delete userToUpdate.iat;
-    delete userToUpdate.exp;
     delete userToUpdate.role;
-    delete userToUpdate.image;
 
     // buscamos en la bbdd si ya existe un usuario con el email y/o nick ingresado
     User.find({ $or: [

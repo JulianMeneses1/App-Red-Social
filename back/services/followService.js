@@ -1,6 +1,6 @@
 const Follow = require("../models/Follow");
 
-// Función para ver todos los seguidores  y seguidos de un usuario
+// Función para obtener los ids de todos los seguidores y seguidos de un usuario
 const followUserIds = async (identityUserId)=> {
     try {
         const following = await Follow.find({ "user": identityUserId})
