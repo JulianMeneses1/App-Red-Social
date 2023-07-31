@@ -6,7 +6,8 @@ const router = express.Router();
 router.post("", auth, publicationController.save);
 router.get("/detail/:id", auth, publicationController.getPublication);
 router.get("/user/:id?/:page?", auth, publicationController.getUserPublications);
+router.get("/feed/:page?", auth, publicationController.feed);
 router.delete("/:id", auth, publicationController.remove);
-router.put("/update/:id", auth, publicationController.update)
+router.put("/update/:id", auth, publicationController.update);
 
 module.exports = router;

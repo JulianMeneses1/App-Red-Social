@@ -1,5 +1,6 @@
 const fs = require("fs");
 const User = require("../models/User");
+const Publication = require("../models/Publication");
 const path = require("path");
 
 const uploadAvatar = (req,res) => {
@@ -41,6 +42,8 @@ const uploadAvatar = (req,res) => {
 
 const uploadFile = (req,res) => {
 
+    const publicationId = req.params.id;
+
     if (!req.file) {
         return res.status(404).send({
             status: "error",
@@ -61,17 +64,18 @@ const uploadFile = (req,res) => {
             })
     }
 
-    User.findByIdAndUpdate(req.user.id, {image: req.file.filename}, {new:true})
-        .then((user)=>{
+
+    Publication.findOneAndUpdate( {"user": req.user.id, "_id": publicationId}, {file: req.file.filename}, {new:true})
+        .then((publication)=>{
             return res.status(200).send({
                 status: "success",
-                user,
+                publication,
                 file: req.file
             })
         }).catch((error)=>{
             return res.status(500).json({
                 status:"internal server error",
-                message: "Error al actualizar el campo imagen del usuario"
+                message: "Error al actualizar el campo file de la publicación"
             })
         })   
 }
@@ -99,7 +103,7 @@ const getFile = (req, res) => {
 
     const fileName = req.params.filename;
 
-    const filePath = "./files/avatars/" + fileName;
+    const filePath = "./files/publications/" + fileName;
     
     fs.stat(filePath, (error, exists)=>{
         if (exists) {

@@ -79,8 +79,8 @@ const following = (req, res) => {
     // los respectivos registros con ese id en la colección user, pudiendo mostrar sus datos. Y con el - decimos qué campos no debe traer en el resultado
     Follow.paginate({user: userId}, {page, limit: 3, sort: { created_at: 1 }, 
         populate: [
-            { path: "user", select: "-password -role -__v -created_at" },
-            { path: "followed", select: "-password -role -__v -created_at" }
+            { path: "user", select: "-password -role -__v -created_at -email" },
+            { path: "followed", select: "-password -role -__v -created_at -email" }
         ]})
         .then(async (follows)=>{
             // aplicamos un reduce para evitar que el usuario que sigue se repita en cada objeto, mostrándose una sola vez y en un array todos los usuarios que está siguiendo
@@ -119,8 +119,8 @@ const followers = (req, res) => {
     const page = req.params.page ? req.params.page : 1;
     Follow.paginate({followed: userId}, {page, limit: 3, sort: { created_at: 1 }, 
         populate: [
-            { path: "user", select: "-password -role -__v -created_at" },
-            { path: "followed", select: "-password -role -__v -created_at" }
+            { path: "user", select: "-password -role -__v -created_at -email" },
+            { path: "followed", select: "-password -role -__v -created_at -email" }
         ]})
         .then((followers)=>{
             followers.docs = followers.docs.reduce((result, follower) => {

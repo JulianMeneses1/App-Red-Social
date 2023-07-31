@@ -3,6 +3,8 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwtService = require("../services/jwtService");
 const followService = require("../services/followService");
+const Publication = require("../models/Publication");
+const Follow = require("../models/Follow");
 
 const register = (req, res) => {
 
@@ -186,6 +188,8 @@ const update = (req, res) => {
         if (userToUpdate.password) {
             const hashPassword = await bcrypt.hash(userToUpdate.password,10);
             userToUpdate.password = hashPassword;         
+        } else {
+            delete userToUpdate.password;
         }
         User.findByIdAndUpdate(userIdentity.id, userToUpdate, {new:true})
             .then((user)=> {
@@ -204,10 +208,38 @@ const update = (req, res) => {
     })
 }
 
+const counters = async (req, res) => {
+
+    const userId = req.params.id ? req.params.id : req.user.id;
+
+    try {
+
+        const numberFollowing = await Follow.count({ "user": userId});
+        const numberFollowers = await Follow.count({ "followed": userId});
+        const numberPublications = await Publication.count({ "user": userId});
+
+        return res.status(200).send({
+            user: {
+                id: req.user.id,
+                nickname: req.user.nick
+            },
+            numberFollowing,
+            numberFollowers,
+            numberPublications
+        })
+    } catch(error) {
+        return res.status(500).send({
+            status: "internal error server",
+            message: "Error al ejecutar alguna de las consultas"
+        })
+    }
+}
+
 module.exports = {
     register,
     login,
     profile,
     listUsers,
+    counters,
     update
 }
