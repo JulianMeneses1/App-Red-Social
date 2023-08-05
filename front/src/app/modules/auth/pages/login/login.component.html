@@ -1,7 +1,7 @@
 <div class="container d-flex align-items-center justify-content-center ">
        
     <div class="w-50">
-        <form class="p-4" onSubmit={handleSubmit(onSubmit)}>  
+        <form class="p-4" (ngSubmit)="onSubmit()" [formGroup]="loginForm">  
             <h1 class="text-center">Graming</h1>                                 
             <div class="row">
                 <div class="col-12 my-1">
@@ -12,6 +12,7 @@
                         id="email"
                         maxLength="40"
                         class="form-control"
+                        formControlName="username"
                     />                     
                 </div>
                 <div class="col-12 my-1">
@@ -22,6 +23,7 @@
                         id="password"
                         maxLength="16"
                         class="form-control"
+                        formControlName="password"
                     />
                 </div>                         
             </div>                            
@@ -33,7 +35,7 @@
                                     <div class="spinner-border text-info me-1" role="status"></div>
                                 </div>
                             </button> -->
-                        <button id="submitBtn" type="submit" class=" w-75 btn btn-primary ">Iniciar Sesión</button>
+                        <button [ngClass]="{'disabled': loginForm.invalid}" id="submitBtn" type="submit" class=" w-75 btn btn-primary ">Iniciar Sesión</button>
                   
             </div>
            
@@ -42,7 +44,7 @@
             <button 
             type="button"
             class='btn btn-lg'>
-                ¿No tenés cuenta? <span class="text-primary">Regístrate</span>
+                ¿No tienes cuenta? <span class="text-primary">Regístrate</span>
         </button>  
         </div>
     </div>
