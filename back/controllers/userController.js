@@ -19,18 +19,18 @@ const register = (req, res) => {
         })
     } 
     params.email = params.email.toLowerCase();
-    params.nick = params.nick.toLowerCase();
+    params.username = params.username.toLowerCase();
 
     User.find({ $or: [
         {email: params.email},
-        {nick: params.nick}
+        {username: params.username}
     ]})
     .exec()
     .then(async (users)=> {
         if (users && users.length >= 1) {
             return res.status(500).json({
                 status:"internal server error",
-                message: "Ya existe un usuario con ese email o nick"
+                message: "Ya existe un usuario con ese email o username"
             })
         } 
         const hashPassword = await bcrypt.hash(params.password,10);
@@ -94,7 +94,7 @@ const login = (req, res) => {
                 user: {
                     id: user._id,
                     name: user.name,
-                    nick: user.nick
+                    username: user.username
                 },
                 token
             })
@@ -166,15 +166,15 @@ const update = (req, res) => {
     // eliminamos los campos que no queremos que pueda modificar
     delete userToUpdate.role;
 
-    // buscamos en la bbdd si ya existe un usuario con el email y/o nick ingresado
+    // buscamos en la bbdd si ya existe un usuario con el email y/o username ingresado
     User.find({ $or: [
         {email: userToUpdate.email},
-        {nick: userToUpdate.nick}
+        {username: userToUpdate.username}
     ]})
     .exec()
     .then(async (users)=> {
         let userIsSet = false;
-        // si ya existe un usuario con el mismo email y/o nick que tenga otro id, es decir que no es el usuario que está haciendo
+        // si ya existe un usuario con el mismo email y/o username que tenga otro id, es decir que no es el usuario que está haciendo
         // la solicitud, entonces ponemos userIsSet en true y lanzamos el error.
         users.forEach(user => {
             if (user && user._id != userIdentity.id) userIsSet = true;
@@ -182,7 +182,7 @@ const update = (req, res) => {
         if (userIsSet) {
             return res.status(500).json({
                 status:"internal server error",
-                message: "Ya existe un usuario con ese email o nick"
+                message: "Ya existe un usuario con ese email o username"
             })
         } 
         if (userToUpdate.password) {
@@ -221,7 +221,7 @@ const counters = async (req, res) => {
         return res.status(200).send({
             user: {
                 id: req.user.id,
-                nickname: req.user.nick
+                nickname: req.user.username
             },
             numberFollowing,
             numberFollowers,

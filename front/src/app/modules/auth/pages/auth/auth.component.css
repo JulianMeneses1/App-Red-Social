@@ -1,0 +1,9 @@
+form, .register-container {
+    border: solid 2px rgb(96, 96, 97);
+    border-radius: 0.5rem;
+}
+h1 {
+    font-family: "Josefin+Sans";
+    font-weight: bold;
+
+}

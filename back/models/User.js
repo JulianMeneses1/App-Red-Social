@@ -8,7 +8,7 @@ const UserSchema = Schema({
     },
     lastname: String,
     biography: String,
-    nick: {
+    username: {
         type: String,
         required: true,
         unique: true

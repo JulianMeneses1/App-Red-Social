@@ -1,0 +1,8 @@
+.container {
+    height: 100vh;
+    width: 75vw !important;
+}
+body {
+    background: rgb(105,134,219);
+    background: linear-gradient(90deg, rgba(105,134,219,1) 0%, rgba(177,196,238,1) 100%);
+}
