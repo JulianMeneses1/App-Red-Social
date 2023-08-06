@@ -1,1 +1,73 @@
-<p>register works!</p>
+<div class="container d-flex align-items-center justify-content-center animate__animated" [ngClass]="{'animate__lightSpeedInRight': !(isSignIn$ | async)}" >
+    <div class="w-50">
+        <form class="p-4" (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+            <h1 class="text-center">Graming</h1>
+            <h5 class="text-center my-3">Crear cuenta</h5>
+            <div class="row">
+                <div class="col-12 my-1">
+                    <label htmlFor="email" class="form-label">Nombre</label>
+                    <input 
+                        type="text" 
+                        id="email" 
+                        placeholder="Ingrese su email" 
+                        maxLength="40" 
+                        class="form-control"
+                        formControlName="email" />
+                </div>
+                <div class="col-12 my-1">
+                    <label htmlFor="email" class="form-label">Apellido</label>
+                    <input 
+                        type="text" 
+                        id="email" 
+                        placeholder="Ingrese su email" 
+                        maxLength="40" 
+                        class="form-control"
+                        formControlName="email" />
+                </div>
+                <div class="col-12 my-1">
+                    <label htmlFor="email" class="form-label">Usuario</label>
+                    <input 
+                        type="text" 
+                        id="email" 
+                        placeholder="Ingrese su email" 
+                        maxLength="40" 
+                        class="form-control"
+                        formControlName="email" />
+                </div>
+                <div class="col-12 my-1">
+                    <label htmlFor="email" class="form-label">Email</label>
+                    <input 
+                        type="text" 
+                        id="email" 
+                        placeholder="Ingrese su email" 
+                        maxLength="40" 
+                        class="form-control"
+                        formControlName="email" />
+                </div>
+                <div class="col-12 my-1">
+                    <label htmlFor="password" class="form-label">Contraseña</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        placeholder="Ingrese su contraseña" 
+                        maxLength="16"
+                        class="form-control" 
+                        formControlName="password"/>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center mt-4">
+                <button id="submitBtn" type="submit" *ngIf="isLoading$ | async" class="w-75 btn btn-primary ">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p class="mb-0">Procesando</p>
+                        <div class="spinner-border text-info me-1" role="status"></div>
+                    </div>
+                </button>
+                <button *ngIf="!(isLoading$ | async)" [ngClass]="{'disabled': loginForm.invalid}" id="submitBtn"
+                    type="submit" class=" w-75 btn btn-primary ">Registrarse</button>
+            </div>
+        </form>
+        <div class="register-container d-flex justify-content-center mt-4 align-items-center">
+            ¿Ya tienes una cuenta? <span class="text-primary ms-1" (click)="toggleSignIn()">Inicia sesión</span>
+        </div>
+    </div>
+</div>

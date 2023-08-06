@@ -68,7 +68,7 @@ const login = (req, res) => {
         })
     }
 
-    User.findOne({email: params.email})  
+    User.findOne({email: params.email.toLowerCase()})  
         .then(user=> {
             if (!user) {
                 return res.status(404).json({

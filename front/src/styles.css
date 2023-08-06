@@ -1,4 +1,14 @@
-.container {
-    height: 100vh;
-    width: 75vw !important;
+
+body {
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
 }
+
+
+/*  Para anular el efecto del color negro y el fondo blanco del autollenado de los inputs (en realidad no lo anula sino que pospone su efecto 600000s, o sea 10000 minutos) */
+
+input:-webkit-autofill, input:-webkit-autofill:focus {  
+    transition: background-color 600000s 0s, color 600000s 0s;
+}
+

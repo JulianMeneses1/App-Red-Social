@@ -1,1 +1,3 @@
+<app-header *ngIf="isAuth$ | async"></app-header>
 <router-outlet></router-outlet>
+<app-footer *ngIf="isAuth$ | async"></app-footer>

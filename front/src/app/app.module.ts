@@ -5,6 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { StoreModule } from '@ngrx/store';
+import { ROOT_REDUCERS } from './state/app.state';
+import { EffectsModule } from '@ngrx/effects';
+import { AuthEffects } from './state/effects/auth.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -15,7 +20,10 @@ import { AuthModule } from './modules/auth/auth.module';
     AppRoutingModule,
     SharedModule,
     AuthModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot(ROOT_REDUCERS),
+    EffectsModule.forRoot([AuthEffects]),    
+    StoreDevtoolsModule.instrument({ name: 'TEST' })
   ],
   providers: [],
   bootstrap: [AppComponent]
