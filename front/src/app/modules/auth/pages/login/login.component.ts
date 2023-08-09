@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
   }
 
   toggleSignIn(): void {
+    this.loginForm.reset();
     this.store.dispatch(onToggleSignIn());
   }
 

@@ -7,7 +7,7 @@ import { environment } from 'src/app/enviroments/enviroment';
   providedIn: 'root'
 })
 
-export class AuthService {
+export class UsersService {
 
   constructor(private httpClient: HttpClient) { }
 
@@ -19,8 +19,8 @@ export class AuthService {
     })
   }  
 
-  public login (credentials: object):Observable<any>{
-    return this.httpClient.post<any>(this.url + '/login', credentials, this.httpOptions);
+  public createUser (user: object):Observable <object> {    
+    return this.httpClient.post<object>(this.url, user, this.httpOptions);
   }
 }
 

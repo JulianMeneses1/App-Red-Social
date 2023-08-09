@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { map, exhaustMap, catchError } from 'rxjs/operators';
+import { map, exhaustMap, catchError, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth/services/authService';
 import Swal from 'sweetalert2';
 
@@ -17,7 +17,8 @@ export class AuthEffects {
 
   onLogin$ = createEffect(() => this.actions$.pipe(
     ofType('[Login Page] Login'),
-    exhaustMap(({email, password} ) => this.authService.login({email, password})
+    exhaustMap(({email, password}) => {
+      return this.authService.login({email, password})
       .pipe(
         map(data => {
           sessionStorage.setItem('login', JSON.stringify({
@@ -37,6 +38,6 @@ export class AuthEffects {
                       'error'
                     );
           return of({ type: '[Login Page] Finish loading' }); })
-      ))
+      )})
   ));
 }

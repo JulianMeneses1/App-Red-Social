@@ -5,10 +5,10 @@ export interface UserModel {
    username: string,
    email: string,
    password: string,
-   role: string,
-   image: string,
-   created_at: Date,
-   publications: object [],
-   followers: object [],
-   followed: object []
+   role?: string,
+   image?: string,
+   created_at?: Date,
+   publications?: object [],
+   followers?: object [],
+   followed?: object []
 }

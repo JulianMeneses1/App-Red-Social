@@ -1,6 +1,6 @@
 <div class="container d-flex align-items-center justify-content-center animate__animated" [ngClass]="{'animate__lightSpeedInRight': !(isSignIn$ | async)}" >
     <div class="w-50">
-        <form class="p-4" (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+        <form class="p-4" (ngSubmit)="onSubmit()" [formGroup]="registerForm">
             <h1 class="text-center">Graming</h1>
             <h5 class="text-center my-3">Crear cuenta</h5>
             <div class="row">
@@ -8,31 +8,31 @@
                     <label htmlFor="email" class="form-label">Nombre</label>
                     <input 
                         type="text" 
-                        id="email" 
-                        placeholder="Ingrese su email" 
-                        maxLength="40" 
+                        id="name" 
+                        placeholder="Ingrese su nombre" 
+                        maxLength="20" 
                         class="form-control"
-                        formControlName="email" />
+                        formControlName="name" />
                 </div>
                 <div class="col-12 my-1">
                     <label htmlFor="email" class="form-label">Apellido</label>
                     <input 
                         type="text" 
-                        id="email" 
-                        placeholder="Ingrese su email" 
-                        maxLength="40" 
+                        id="lastname" 
+                        placeholder="Ingrese su apellido" 
+                        maxLength="20" 
                         class="form-control"
-                        formControlName="email" />
+                        formControlName="lastname" />
                 </div>
                 <div class="col-12 my-1">
                     <label htmlFor="email" class="form-label">Usuario</label>
                     <input 
                         type="text" 
-                        id="email" 
-                        placeholder="Ingrese su email" 
-                        maxLength="40" 
+                        id="username" 
+                        placeholder="Ingrese su usuario" 
+                        maxLength="20" 
                         class="form-control"
-                        formControlName="email" />
+                        formControlName="username" />
                 </div>
                 <div class="col-12 my-1">
                     <label htmlFor="email" class="form-label">Email</label>
@@ -51,8 +51,10 @@
                         id="password" 
                         placeholder="Ingrese su contraseña" 
                         maxLength="16"
-                        class="form-control" 
+                        class="form-control"
+                        [ngClass]="{'is-valid': registerForm.get('password')?.valid}"
                         formControlName="password"/>
+                    <label class="form-label mt-1" style="font-size: 13px;">La contraseña debe tener entre 8 y 16 caracteres, incluyendo al menos una mayúscula y un número</label>
                 </div>
             </div>
             <div class="d-flex justify-content-center mt-4">
@@ -62,7 +64,7 @@
                         <div class="spinner-border text-info me-1" role="status"></div>
                     </div>
                 </button>
-                <button *ngIf="!(isLoading$ | async)" [ngClass]="{'disabled': loginForm.invalid}" id="submitBtn"
+                <button *ngIf="!(isLoading$ | async)" [ngClass]="{'disabled': registerForm.invalid}" id="submitBtn"
                     type="submit" class=" w-75 btn btn-primary ">Registrarse</button>
             </div>
         </form>

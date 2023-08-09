@@ -37,11 +37,7 @@ const register = (req, res) => {
         params.password = hashPassword;
         const user = new User(params);
         user.save(user).then(()=> {
-            return res.status(200).json({
-                status:"success",
-                message: "Usuario guardado exitosamente",
-                user
-            })
+            return res.status(200).send(user)
         }).catch(error=> {
             return res.status(500).json({
                 status:"internal server error",
@@ -52,7 +48,7 @@ const register = (req, res) => {
     .catch((error)=> {
         return res.status(500).json({
             status:"internal server error",
-            message: "Error al ejecutar la consulta"
+            message: "Error al comprobar campos únicos"
         })
     })
 }

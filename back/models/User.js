@@ -31,8 +31,7 @@ const UserSchema = Schema({
         default: Date.now
     },
     image: {
-        type: String,
-        required: true
+        type: String
     }
 })
 
